@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Boutique Ebooks — AutoEmpire AI</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial; background: #0f0f1a; color: white; }
+header { background: linear-gradient(135deg, #6c63ff, #e94560); padding: 40px 20px; text-align: center; }
+header h1 { font-size: 36px; }
+nav { display: flex; justify-content: center; gap: 20px; padding: 20px; background: #1a1a2e; flex-wrap: wrap; }
+nav a { color: white; text-decoration: none; padding: 12px 25px; background: #6c63ff; border-radius: 25px; }
+nav a:hover { background: #e94560; }
+.produits { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; padding: 50px 20px; }
+.carte { background: #1a1a2e; border-radius: 15px; padding: 30px; max-width: 320px; border: 2px solid #6c63ff; }
+.carte h2 { color: #6c63ff; margin-bottom: 15px; }
+.carte p { color: #aaa; line-height: 1.6; }
+.prix { font-size: 36px; color: #e94560; font-weight: bold; margin: 15px 0; }
+.btn { width: 100%; padding: 15px; background: #6c63ff; color: white; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+.btn:hover { background: #e94560; }
+#loading { text-align: center; padding: 40px; font-size: 20px; color: #6c63ff; display: none; }
+#apercu { background: #1a1a2e; margin: 20px; padding: 30px; border-radius: 15px; display: none; white-space: pre-wrap; line-height: 1.8; border: 1px solid #6c63ff; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Boutique Ebooks AutoEmpire AI</h1>
+  <p>Ebooks générés par IA — Téléchargement instantané</p>
+</header>
+
+<nav>
+  <a href="/">🏠 Accueil</a>
+  <a href="/immomail.html">🏠 ImmoMail</a>
+  <a href="/boutique.html">📚 Boutique</a>
+  <a href="/affiliation.html">💰 Affiliation</a>
+  <a href="/dashboard.html">📊 Dashboard</a>
+</nav>
+
+<div class="produits">
+  <div class="carte">
+    <h2>🤖 Gagner avec l'IA en 2026</h2>
+    <p>Comment utiliser l'IA pour créer des revenus automatisés. Guide complet avec exemples concrets.</p>
+    <div class="prix">27€</div>
+    <button class="btn" onclick="generer('Gagner de l argent avec l IA en 2026')">✨ Obtenir l'ebook</button>
+  </div>
+
+  <div class="carte">
+    <h2>🚀 Automatiser son Business</h2>
+    <p>Les meilleures stratégies pour automatiser votre business et travailler moins tout en gagnant plus.</p>
+    <div class="prix">37€</div>
+    <button class="btn" onclick="generer('Automatiser son business pour gagner plus en travaillant moins')">✨ Obtenir l'ebook</button>
+  </div>
+
+  <div class="carte">
+    <h2>💰 Dropshipping en 2026</h2>
+    <p>Guide complet pour lancer votre boutique dropshipping et générer vos premiers revenus.</p>
+    <div class="prix">17€</div>
+    <button class="btn" onclick="generer('Lancer un business dropshipping rentable en 2026')">✨ Obtenir l'ebook</button>
+  </div>
+</div>
+
+<div id="loading">⏳ Génération de votre ebook en cours...</div>
+<div id="apercu"></div>
+
+<script>
+async function generer(sujet) {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('apercu').style.display = 'none';
+  var response = await fetch('/generer-ebook', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sujet: sujet })
+  });
+  var data = await response.json();
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('apercu').style.display = 'block';
+  document.getElementById('apercu').innerText = data.contenu;
+}
+</script>
+
+</body>
+</html>

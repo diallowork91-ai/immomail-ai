@@ -2,29 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const Anthropic = require('@anthropic-ai/sdk');
 require('dotenv').config();
-const { google } = require('googleapis');
 
-const auth = new google.auth.GoogleAuth({
-  keyFile: 'credentials.json',
-  scopes: ['https://www.googleapis.com/auth/spreadsheets']
-});
-
-const SHEET_ID = '1M_ya2RW6tooonQLanZ6-LE3suj6EKRpkwjCpCdUaxKI';
-
-async function ajouterDansSheets(nom, email) {
-  const client = await auth.getClient();
-  const sheets = google.sheets({ version: 'v4', auth: client });
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: SHEET_ID,
-    range: 'Sheet1!A:E',
-    valueInputOption: 'RAW',
-    resource: {
-      values: [[new Date().toLocaleDateString('fr-FR'), nom, '', email, 'Généré']]
-    }
-  });
-}
 const app = express();
-let compteur = { emails: 0 };
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
@@ -32,6 +11,8 @@ app.use(express.static('public'));
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY
 });
+
+let compteur = { emails: 0 };
 
 app.post('/generer-email', async function(req, res) {
   var nom = req.body.nom;
@@ -48,13 +29,29 @@ app.post('/generer-email', async function(req, res) {
   });
 
   compteur.emails++;
-var emailText = message.content[0].text;
-ajouterDansSheets(nom, bien + ' - ' + situation).catch(console.error);
-res.json({ email: emailText });
+  res.json({ email: message.content[0].text });
+});
+
+app.post('/generer-ebook', async function(req, res) {
+  var sujet = req.body.sujet || 'Gagner de l argent avec l IA en 2026';
+
+  var message = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 4000,
+    messages: [{
+      role: 'user',
+      content: 'Ecris un ebook complet sur : ' + sujet + '. Structure : Introduction, 5 chapitres detailles, Conclusion. Minimum 2000 mots. En francais.'
+    }]
+  });
+
+  res.json({ contenu: message.content[0].text });
+});
 
 app.get('/stats', function(req, res) {
   res.json({ emails_generes: compteur.emails });
 });
-app.listen(3000, function() {
-  console.log('Serveur demarre sur le port 3000');
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function() {
+  console.log('Serveur demarre sur le port ' + PORT);
 });
