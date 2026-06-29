@@ -4,6 +4,7 @@ const Anthropic = require('@anthropic-ai/sdk');
 require('dotenv').config();
 
 const app = express();
+let compteur = { emails: 0 };
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
@@ -27,8 +28,13 @@ app.post('/generer-email', async function(req, res) {
   });
 
   res.json({ email: message.content[0].text });
+  compteur.emails++;
+res.json({ email: message.content[0].text });
 });
 
+app.get('/stats', function(req, res) {
+  res.json({ emails_generes: compteur.emails });
+});
 app.listen(3000, function() {
   console.log('Serveur demarre sur le port 3000');
 });
