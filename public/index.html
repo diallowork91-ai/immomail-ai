@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>ImmoMail AI</title>
+<style>
+body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; background: #f5f5f5; }
+h1 { color: #2c3e50; text-align: center; }
+input, select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+button { background: #2c3e50; color: white; cursor: pointer; border: none; }
+#resultat { background: white; padding: 20px; border-radius: 8px; margin-top: 20px; white-space: pre-wrap; display: none; }
+</style>
+</head>
+<body>
+<h1>🏠 ImmoMail AI</h1>
+<p style="text-align:center">Emails professionnels en 5 secondes</p>
+<input type="text" id="nom" placeholder="Nom du client">
+<select id="bien">
+<option value="appartement">Appartement</option>
+<option value="villa">Villa</option>
+<option value="maison">Maison</option>
+</select>
+<select id="situation">
+<option value="premier contact">Premier contact</option>
+<option value="suivi apres visite">Suivi apres visite</option>
+<option value="negociation">Negociation</option>
+<option value="relance">Relance</option>
+</select>
+<button onclick="generer()">Generer email</button>
+<div id="resultat"></div>
+<script>
+async function generer() {
+  var nom = document.getElementById('nom').value;
+  var bien = document.getElementById('bien').value;
+  var situation = document.getElementById('situation').value;
+  var resultat = document.getElementById('resultat');
+  resultat.style.display = 'block';
+  resultat.innerText = 'Generation en cours...';
+  var response = await fetch('/generer-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nom: nom, bien: bien, situation: situation })
+  });
+  var data = await response.json();
+  resultat.innerText = data.email;
+}
+</script>
+</body>
+</html>
