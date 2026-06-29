@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard - ImmoMail AI</title>
+<style>
+body { font-family: Arial; background: #1a1a2e; color: white; margin: 0; padding: 20px; }
+h1 { text-align: center; color: #e94560; }
+.stats { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 30px 0; }
+.card { background: #16213e; padding: 30px; border-radius: 15px; min-width: 200px; text-align: center; border: 1px solid #e94560; }
+.card h2 { font-size: 40px; color: #e94560; margin: 0; }
+.card p { color: #aaa; margin: 10px 0 0; }
+.section { background: #16213e; padding: 20px; border-radius: 15px; margin: 20px 0; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+th { color: #e94560; }
+</style>
+</head>
+<body>
+<h1>🏠 ImmoMail AI — Dashboard</h1>
+
+<div class="stats">
+  <div class="card">
+    <h2 id="total-emails">--</h2>
+    <p>Emails envoyés</p>
+  </div>
+  <div class="card">
+    <h2 id="total-visiteurs">--</h2>
+    <p>Visiteurs sur le site</p>
+  </div>
+  <div class="card">
+    <h2 id="total-generations">--</h2>
+    <p>Emails générés</p>
+  </div>
+  <div class="card">
+    <h2 id="total-clients">0</h2>
+    <p>Clients payants</p>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📋 Derniers prospects contactés</h3>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Statut</th>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align:center;color:#aaa">
+        Connecte ton Google Sheets pour voir les données
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="section">
+  <h3>💰 Revenus</h3>
+  <p style="font-size:30px;color:#e94560">0 € <span style="font-size:16px;color:#aaa">ce mois</span></p>
+  <p style="color:#aaa">Les revenus apparaîtront ici dès ton premier client payant.</p>
+</div>
+
+</body>
+</html>
