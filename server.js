@@ -29,6 +29,7 @@ app.post('/generer-email', async function(req, res) {
   res.json({ email: message.content[0].text });
 });
 
-app.listen(3000, function() {
-  console.log('Serveur demarre sur le port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function() {
+  console.log('Serveur demarre sur le port ' + PORT);
 });
