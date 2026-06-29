@@ -61,5 +61,18 @@ th { color: #e94560; }
   <p style="color:#aaa">Les revenus apparaîtront ici dès ton premier client payant.</p>
 </div>
 
+<script>
+async function chargerStats() {
+  try {
+    var response = await fetch('/stats');
+    var data = await response.json();
+    document.getElementById('total-generations').innerText = data.emails_generes;
+  } catch(e) {
+    console.log('Erreur stats');
+  }
+}
+chargerStats();
+setInterval(chargerStats, 30000);
+</script>
 </body>
 </html>
